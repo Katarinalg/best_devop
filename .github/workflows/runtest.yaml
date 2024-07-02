@@ -10,17 +10,19 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
-    # TODO: add more systems to test on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os : [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.8, 3.9, 3.10, 3.11]
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python 3.11
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
-          # TODO: add more Python versions to test on
+          python-version: ${{ matrix.python-version}}
 
       - name: Install dependencies
         run: |
